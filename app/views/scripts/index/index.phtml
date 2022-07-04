@@ -1,0 +1,148 @@
+<?php
+
+require_once(ROOT_PATH . '/app/controllers/IndexController.php');
+include(ROOT_PATH . '/app/views/layouts/layout.phtml');
+include(ROOT_PATH . '/app/views/layouts/buttons.phtml');
+$datason = file_get_contents('data.json');
+$decoded_json = json_decode($datason, true);
+
+?>
+
+<div class="px-5 pb-10 mt-5 relative">
+    <div class="flex flex-wrap pb-10 ">
+        
+        <?php
+
+        $groupedElements = [
+            'pending' => [],
+            'doing' => [],
+            'finish' => []
+        ];
+
+        foreach($decoded_json as $value) 
+        {
+
+            $id = $value["id"];
+            $text = $value["text"];
+            $name_user = $value["name_user"];
+            $time_start = $value["time_start"];
+            $time_finish = $value["time_finish"];
+            $thedate =  date('d/m/Y H:i:s', $time_start);
+            $thedate_finish =  date('d/m/Y H:i:s', $time_finish);
+            $status = $value["status"];
+            
+            switch($status) {
+                case 'pending':
+                    $html = '<div draggable="true" ondragstart="drag(event)"  ondrop="drop(event)" id="task-'.$id.'" 
+                    class="mb-4 block w-11/12 p-6 bg-white rounded-lg border border-grey-200 shadow-md hover:bg-yellow-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-move">         
+                    ';
+                    break;
+                case 'doing':
+                    $html = '<div draggable="true" ondragstart="drag(event)"  ondrop="drop(event)" id="task-'.$id.'" 
+                    class="mb-4 block w-11/12 p-6 bg-white rounded-lg border border-grey-200 shadow-md hover:bg-green-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-move">
+                    ';
+                    break;
+                case 'finish':
+                default:
+                    $html = '<div id="task-'.$id.'" class="mb-4 block w-11/12 p-6 bg-red rounded-lg border border-grey-200 shadow-md hover:bg-red-200 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-red-100 cursor-not-allowed">
+                    ';
+                    break;
+            }
+
+            $html .= '
+            
+            <p class="font-normal text-gray-700 dark:text-gray-400 flex mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg> : <span>'.$name_user.'</span></p>
+
+            <p class="font-normal text-gray-700 dark:text-gray-400 flex mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+            </svg> : '.$id.'</p>
+
+            <p class="font-normal text-gray-700 dark:text-gray-400 flex mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+            </svg> : '.$text.'</p>
+
+            <p class="font-normal text-gray-700 dark:text-gray-400 flex mb-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg> : '.$thedate.'</p>
+
+            <p class="font-normal text-gray-700 dark:text-gray-400 flex mb-3 datefinish"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+            </svg> : <span class="taskTimeFinish">'.$thedate_finish.'</span></p>
+
+            <p class="font-normal text-gray-700 dark:text-gray-400 flex mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+            </svg> : <span class="taskStatus">'.$status.'</span></p>
+
+            <div class="flex">
+                <a href="edit?id='.$id.'" class="text-gray-700 dark:text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                </a>
+                <a href="delete?id='.$id.'" class="text-gray-700 dark:text-gray-400 ml-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.933 21H8.067a2 2 0 01-1.733-1.142L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </a>  
+            </div>
+        </div>';
+
+            $groupedElements[$status][] = $html;
+        
+        }  
+        
+        ?>
+            <div class="relative sm:w-4/12">
+                <div id="pending" ondrop="drop(event)" ondragover="allowDrop(event)" class="border-2 border-black-600 sm:w-12/12 p-4 w-full">
+                    <h2 class="border-b-4 text-4xl mb-2 pb-3 text-center uppercase">PENDING</h2>
+                      
+                      <?php 
+                            foreach($groupedElements['pending'] as $task) {
+                                echo $task;
+                            }
+                        
+                        ?>
+                </div>
+            </div>
+
+
+            <div class="relative sm:w-4/12">
+                    <div id="doing" ondrop="drop(event)" ondragover="allowDrop(event)"
+                        class="border-y-2 border-black-600 sm:w-12/12 p-4 w-full">
+                        <h2 class="border-b-4 text-4xl mb-2 pb-3 text-center uppercase">DOING</h2>
+                        <?php 
+                            foreach($groupedElements['doing'] as $task) {
+                                echo $task;
+                            }
+                        
+                        ?>
+                </div>
+            </div>
+
+            <div class="relative sm:w-4/12">
+                    <div id="finish" ondrop="drop(event)" ondragover="allowDrop(event)"
+                        class="border-2 border-black-600 sm:w-12/12 p-4 w-full">
+                        <h2 class="border-b-4 text-4xl mb-2 pb-3 text-center uppercase">FINISH</h2>
+                        <?php 
+                            foreach($groupedElements['finish'] as $task) {
+                                echo $task;
+                            }
+                        
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php include(ROOT_PATH . '/app/views/layouts/footer.phtml'); ?>
+
+    </body>
+
+    </html>

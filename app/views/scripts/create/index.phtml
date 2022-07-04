@@ -1,0 +1,51 @@
+<?php
+
+include(ROOT_PATH . '/app/views/layouts/layout.phtml');
+include(ROOT_PATH . '/app/views/layouts/buttons.phtml');
+
+?>
+
+<h2 class="text-center text-3xl my-8">Add a new task</h2>
+
+<div class="container mx-auto px-10 w-96">
+    <form action="/todo-task/web/create" method="post">
+        <div class="form p-5 border-2 border-teal-900 text-center">
+            <h2 class="text-3xl 0-5  pb-5">Insert</h2>
+            <div class="w-full">
+                <p class="mr-3 mt-3">
+                    Task
+                </p>
+                <input type="text" name="text" id="text" required
+                    class="text-sm border-2 text-slate-500 border-gray-900 p-2.5" />
+            </div>
+            <div class="w-full">
+                <p class="mr-3 mt-3">
+                    User name
+                </p>
+                <input type="text" name="name_user" id="name_user" required
+                    class="text-sm border-2 text-slate-500 border-gray-900 p-2.5" />
+            </div>
+            <div class="w-full">
+                <p class="mr-3 mt-3">Status</p>
+                <select id="status" name="status"
+                    class="form-control text-sm border-2 text-slate-500 border-gray-900 p-3 px-12">
+                    <option>pending</option>
+                    <option>doing</option>
+                    <option>finish</option>
+                </select>
+            </div>
+            <div class="block text-center pt-10 pb-5">
+                <button type="submit" name="boto-summit" class="custom-btn btn-3 px-8 py-3"><span>add
+                        task</span></button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="text-center mt-10">
+    <a href="../web/" class="custom-btn btn-3 px-8 py-3 "><span>go to tasks</span></a>
+</div>
+
+
+<?php
+include(ROOT_PATH . '/app/views/layouts/footer.phtml');
+?>

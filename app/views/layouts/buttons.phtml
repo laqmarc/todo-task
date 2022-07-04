@@ -1,0 +1,37 @@
+<!-- create task -->
+<a href="http://localhost/todo-task/web/new" class="createbutton bg-black rounded-r-lg flex" aria-current="page">
+    <span class="text-white">Create Task</span> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+        viewBox="0 0 24 24" stroke="rgb(254 240 138 / var(--tw-bg-opacity))" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+</a>
+
+
+<!-- modal -->
+<div class="interior text-center">
+    <a class="createbutton bg-black ttt rounded-r-lg flex" href="#open-modal">
+        <span class="text-white">Information</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+            stroke="rgb(254 240 138 / var(--tw-bg-opacity))" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+
+    </a>
+</div>
+
+<div id="open-modal" class="modal-window">
+    <div class="modalespai">
+        <a href="#" title="Close" class="modal-close">
+            Close
+        </a>
+        <img src="../web/images/logo.png" class="w-12">
+        <p class="text-center titol">Instructions</p>
+        <p class="mb-3">U can change the status of the task dragging the card</p>
+        <p class="mb-3">Finished task can't be dragged</p>
+        <p class="mb-3">The stattus and the final time will be changed automatically when drag to
+            finish</p>
+        <p>See the js console to see the movements</p>
+    </div>
+</div>
